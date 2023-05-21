@@ -11,7 +11,7 @@ const welcome = (req, res) => {
 app.get("/", welcome);
 
 const movieHandlers = require("./movieHandlers");
-// app.get("/api/users", movieHandlers.getUsers);
+ app.get("/api/users", movieHandlers.getUsers);
 // app.get("/api/users/:id", movieHandlers.getUsersById);
 // app.get("/api/users", movieHandlers.getUsers);
 // app.get("/api/users/:id", movieHandlers.getUserById);
