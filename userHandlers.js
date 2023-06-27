@@ -72,23 +72,26 @@ const getUsersById = (req, res) => {
     });
 };
 
-const getUserByEmailWithPasswordAndPassToNext = (req, res) => {
-    const { email, pseudo } =
-      req.body;
-  
-    database
-      .query(
-        "INSERT INTO login( email, password) VALUES (?, ?)",
-        [ email , password]
-      )
-      .then(([result]) => {
-        res.location(`/api/login/${result.insertId}`).Status(201).send("Credentials are valid");
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(401).send("Error email or password");
-      });
-  };
+const getUserByEmailWithPasswordAndPassToNext = (req, res, next) => {
+  const { email } = req.body;
+
+  database
+    .query("select * from users where email = ?", [email])
+    .then(([users]) => {
+      if (users[0] != null) {
+        req.user = users[0];
+
+        next();
+      } else {
+        res.sendStatus(401);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving data from database");
+    });
+};
+
 
 
   const updateUsers = (req, res) => {

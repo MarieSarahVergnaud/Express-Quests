@@ -48,12 +48,12 @@ app.delete("/api/movies/:id", movieHandlers.deleteMovie);
 
 
 const userHandlers = require("./userHandlers");
-const { hashPassword } = require("./auth.js");
+const { hashPassword, verifyPassword} = require("./auth.js");
 
 app.get("/api/users", userHandlers.getUsers);
 app.get("/api/users/:id", userHandlers.getUsersById);
 // app.post("/api/users", hashPassword, userHandlers.postUser);
-app.post("/api/users", validateUser, userHandlers.postUser);
+app.post("/api/users", hashPassword, userHandlers.postUser);
 app.put("/api/users/:id", hashPassword, userHandlers.updateUsers);
 
 // const loginHandlers = require("./loginHandlers");
@@ -61,20 +61,18 @@ app.put("/api/users/:id", hashPassword, userHandlers.updateUsers);
 
 
 //🗝️ ----------Authentification avec JWT ------
-const isItDwight = (req, res) => {
-  if (req.body.email === "mara@lechat.com" && req.body.password === "123456") {
-    res.send("Credentials are valid");
-  } else {
-    res.sendStatus(401);
-  }
-};
-app.post("/api/login", isItDwight);
+// const isItDwight = (req, res) => {
+//   if (req.body.email === "dwight@theoffice.com" && req.body.password === "123456") {
+//     res.send("Credentials are vPOOOT");
+//   } else {
+//     res.sendStatus(401);
+//   }
+// };
+// app.post("/api/login", isItDwight);
 
 
 
-const verifyPassword = (req, res) => {
-  res.send(req.user);
-}
+
 
 //--
 app.post(
